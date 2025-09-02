@@ -1,0 +1,15 @@
+{
+  "name": "whatsapp-termux-bot",
+  "version": "4.0.0",
+  "description": "WhatsApp bot para Termux con descargas y men\u00fa interactivo",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "latest",
+    "pino": "latest",
+    "qrcode-terminal": "latest"
+  }
+}
