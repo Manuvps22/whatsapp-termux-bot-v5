@@ -16,22 +16,22 @@ async function startBot() {
   sock.ev.on("connection.update", (update) => {
     const { connection, lastDisconnect, qr } = update;
 
-    // Mostrar QR en terminal si existe
+    // ✅ Muestra QR en la terminal
     if (qr) {
       qrcode.generate(qr, { small: true });
-      console.log("📌 Escanea el QR con WhatsApp para conectar el bot");
+      console.log("📌 Escanea este QR con WhatsApp → Dispositivos vinculados");
     }
 
     if (connection === "close") {
       const shouldReconnect = (lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut);
       if (shouldReconnect) startBot();
-      else console.log("❌ Conexión cerrada, log out!");
+      else console.log("❌ Sesión cerrada, vuelve a iniciar sesión");
     } else if (connection === "open") {
-      console.log("✅ Bot conectado!");
+      console.log("✅ Bot conectado y funcionando!");
     }
   });
 
-  // Escuchar mensajes
+  // ✅ Escuchar mensajes
   sock.ev.on("messages.upsert", async ({ messages }) => {
     const msg = messages[0];
     if (!msg.message || msg.key.fromMe) return;
@@ -53,13 +53,13 @@ async function startBot() {
         await sock.sendMessage(from, { text: "🏓 Pong!" });
         break;
       case "menu":
-        await sock.sendMessage(from, { text: ".ping\n.menu\n.owner\n.creador" });
+        await sock.sendMessage(from, { text: "📌 Comandos disponibles:\n.menu\n.ping\n.owner\n.creador" });
         break;
       case "owner":
-        await sock.sendMessage(from, { text: `wa.me/${config.ownerNumber}` });
+        await sock.sendMessage(from, { text: `📞 Propietario: wa.me/${config.ownerNumber}` });
         break;
       case "creador":
-        await sock.sendMessage(from, { text: config.ownerName });
+        await sock.sendMessage(from, { text: `👤 Creador: ${config.ownerName}` });
         break;
       default:
         await sock.sendMessage(from, { text: "❌ Comando no reconocido" });
